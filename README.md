@@ -5,7 +5,7 @@ A platform that provide AI based legal guidance after breaking a country's law
 
 
 ## Getting Started 
-![Homepage Image](./src/assets/legalhub")
+![Homepage Image](./src/assets/legalhub.png")
 
 ### Prerequisites
 
