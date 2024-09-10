@@ -73,7 +73,7 @@ const Response = ({ response, isResponseAvailable }) => (
 );
 
 const MadeBy = () => (
-  <div className='made-by'><span role="img" aria-label="symbol">❤️</span>Made with love by Kashish</div>
+  <div className='made-by'><span role="img" aria-label="symbol">❤️</span>Made with love</div>
 );
 
 const App = () => {
