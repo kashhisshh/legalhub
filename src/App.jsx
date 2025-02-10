@@ -83,30 +83,42 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Initialize Google Generative AI
-  const genAI = new GoogleGenerativeAI('AIzaSyAhMO5GF4nU_a8kuXi21UUCeC8iKjTNn4Y'); // Replace 'YOUR_API_KEY' with your actual API key
+  const genAI = new GoogleGenerativeAI('AIzaSyCZYy-OUedr2_qJEIDw0_ya1znD5YrH0fU'); // Replace 'YOUR_API_KEY' with your actual API key
 
   const handleGenerateResponse = async () => {
     try {
       setIsLoading(true);
-
+      console.log("Generating response...");
+  
       if (!genAI) {
-        console.error('Invalid key');
+        console.error("Invalid key");
+        setIsLoading(false);
         return;
       }
-
-      const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+      console.log("Using country:", country);
+      console.log("Situation entered:", situation);
+  
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
       const prompt = `You are a quick guidance for any law violation or government rule break for ${country} country, the information is just for education and awareness purpose and accessed by citizens. Provide (1) law mentioned in the ${country} government law/rule book, (2) Charges/fine/actions against the guilty according to the law, (3) Personal advice on what to do if found guilty and how to proceed further. The scenario is ${situation}.`;
-
+  
+      console.log("Prompt sent to AI:", prompt);
+  
       const result = await model.generateContent(prompt);
+      console.log("Raw API Response:", result);
+  
       const generatedResponse = await result.response.text();
-
+      console.log("Generated Response:", generatedResponse);
+  
       setResponse(generatedResponse);
     } catch (error) {
-      console.error('Error generating content:', error);
+      console.error("Error generating content:", error);
     } finally {
       setIsLoading(false);
+      console.log("Finished processing.");
     }
   };
+  
 
   return (
     <div>
