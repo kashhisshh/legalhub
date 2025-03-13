@@ -83,92 +83,92 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Initialize Google Generative AI
-  const genAI = new GoogleGenerativeAI('AIzaSyCZYy-OUedr2_qJEIDw0_ya1znD5YrH0fU'); // Replace 'YOUR_API_KEY' with your actual API key
+  const genAI = new GoogleGenerativeAI('AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8'); // Replace 'YOUR_API_KEY' with your actual API key
 
-  // const handleGenerateResponse = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     console.log("Generating response...");
+  const handleGenerateResponse = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Generating response...");
   
-  //     if (!genAI) {
-  //       console.error("Invalid key");
-  //       setIsLoading(false);
-  //       return;
-  //     }
+      if (!genAI) {
+        console.error("Invalid key");
+        setIsLoading(false);
+        return;
+      }
   
-  //     console.log("Using country:", country);
-  //     console.log("Situation entered:", situation);
+      console.log("Using country:", country);
+      console.log("Situation entered:", situation);
   
-  //     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  //     const prompt = `You are a quick guidance for any law violation or government rule break for ${country} country, the information is just for education and awareness purpose and accessed by citizens. Provide (1) law mentioned in the ${country} government law/rule book, (2) Charges/fine/actions against the guilty according to the law, (3) Personal advice on what to do if found guilty and how to proceed further. The scenario is ${situation}.`;
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const prompt = `You are a quick guidance for any law violation or government rule break for ${country} country, the information is just for education and awareness purpose and accessed by citizens. Provide (1) law mentioned in the ${country} government law/rule book, (2) Charges/fine/actions against the guilty according to the law, (3) Personal advice on what to do if found guilty and how to proceed further. The scenario is ${situation}.`;
   
-  //     console.log("Prompt sent to AI:", prompt);
+      console.log("Prompt sent to AI:", prompt);
   
-  //     const result = await model.generateContent(prompt);
-  //     console.log("Raw API Response:", result);
+      const result = await model.generateContent(prompt);
+      console.log("Raw API Response:", result);
   
-  //     const generatedResponse = await result.response.text();
-  //     console.log("Generated Response:", generatedResponse);
+      const generatedResponse = await result.response.text();
+      console.log("Generated Response:", generatedResponse);
   
-  //     setResponse(generatedResponse);
-  //   } catch (error) {
-  //     console.error("Error generating content:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //     console.log("Finished processing.");
-  //   }
-  // };
-const handleGenerateResponse = async () => {
-  try {
-    setIsLoading(true);
-    setResponse(""); // Clear previous response
-
-    if (!country || !situation) {
-      console.error("Country and situation must be provided");
+      setResponse(generatedResponse);
+    } catch (error) {
+      console.error("Error generating content:", error);
+    } finally {
       setIsLoading(false);
-      return;
+      console.log("Finished processing.");
     }
+  };
+// const handleGenerateResponse = async () => {
+//   try {
+//     setIsLoading(true);
+//     setResponse(""); // Clear previous response
 
-    console.log("Using country:", country);
-    console.log("Situation entered:", situation);
+//     if (!country || !situation) {
+//       console.error("Country and situation must be provided");
+//       setIsLoading(false);
+//       return;
+//     }
 
-    const API_KEY = "AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8"; // Replace with a valid key
-    const API_URL = `ttps://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8}`;
+//     console.log("Using country:", country);
+//     console.log("Situation entered:", situation);
 
-    const prompt = `You are a legal guide for law violations in ${country}. Provide:
-    1. The relevant law in ${country}'s legal code.
-    2. The penalties for violating it.
-    3. Advice for those found guilty. 
-    Scenario: ${situation}.`;
+//     const API_KEY = "AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8"; // Replace with a valid key
+//     const API_URL = `ttps://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8}`;
 
-    const requestBody = {
-      contents: [{ parts: [{ text: prompt }] }],
-    };
+//     const prompt = `You are a legal guide for law violations in ${country}. Provide:
+//     1. The relevant law in ${country}'s legal code.
+//     2. The penalties for violating it.
+//     3. Advice for those found guilty. 
+//     Scenario: ${situation}.`;
 
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody),
-    });
+//     const requestBody = {
+//       contents: [{ parts: [{ text: prompt }] }],
+//     };
 
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`);
-    }
+//     const response = await fetch(API_URL, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(requestBody),
+//     });
 
-    const responseData = await response.json();
-    console.log("Raw API Response:", responseData);
+//     if (!response.ok) {
+//       throw new Error(`API request failed: ${response.status}`);
+//     }
 
-    const generatedResponse = responseData.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
-    console.log("Generated Response:", generatedResponse);
+//     const responseData = await response.json();
+//     console.log("Raw API Response:", responseData);
 
-    setResponse(generatedResponse);
-  } catch (error) {
-    console.error("Error generating content:", error);
-    setResponse("An error occurred while generating the response. Please try again.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+//     const generatedResponse = responseData.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
+//     console.log("Generated Response:", generatedResponse);
+
+//     setResponse(generatedResponse);
+//   } catch (error) {
+//     console.error("Error generating content:", error);
+//     setResponse("An error occurred while generating the response. Please try again.");
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };
 
   
 
