@@ -123,8 +123,6 @@ const handleGenerateResponse = async () => {
     setIsLoading(true);
     setResponse(""); // Clear previous response
 
-    console.log("Generating response...");
-
     if (!country || !situation) {
       console.error("Country and situation must be provided");
       setIsLoading(false);
@@ -134,16 +132,14 @@ const handleGenerateResponse = async () => {
     console.log("Using country:", country);
     console.log("Situation entered:", situation);
 
-    const API_KEY = "YAIzaSyCZYy-OUedr2_qJEIDw0_ya1znD5YrH0fU"; // Store securely in backend or .env file
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+    const API_KEY = "AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8"; // Replace with a valid key
+    const API_URL = `ttps://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${AIzaSyDr5wgahrt2KMidFZ4F_1gUvEZIS0XRQm8}`;
 
-    const prompt = `You are a quick legal guide for law violations or government rule violations in ${country}. Your response should include:
-    1. The relevant law mentioned in ${country}'s legal code.
-    2. The charges, fines, or actions taken against the guilty.
-    3. Advice on what to do if found guilty and how to proceed further. 
-    The scenario is: ${situation}.`;
-
-    console.log("Prompt sent to AI:", prompt);
+    const prompt = `You are a legal guide for law violations in ${country}. Provide:
+    1. The relevant law in ${country}'s legal code.
+    2. The penalties for violating it.
+    3. Advice for those found guilty. 
+    Scenario: ${situation}.`;
 
     const requestBody = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -151,9 +147,7 @@ const handleGenerateResponse = async () => {
 
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     });
 
@@ -164,7 +158,7 @@ const handleGenerateResponse = async () => {
     const responseData = await response.json();
     console.log("Raw API Response:", responseData);
 
-    const generatedResponse = responseData.candidates?.[0]?.content?.parts?.[0]?.text || "No response from AI.";
+    const generatedResponse = responseData.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
     console.log("Generated Response:", generatedResponse);
 
     setResponse(generatedResponse);
@@ -173,7 +167,6 @@ const handleGenerateResponse = async () => {
     setResponse("An error occurred while generating the response. Please try again.");
   } finally {
     setIsLoading(false);
-    console.log("Finished processing.");
   }
 };
 
