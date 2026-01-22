@@ -12,6 +12,16 @@ export default defineConfig({
     commonjsOptions: {
       include: [/node_modules/],
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'google-genai': ['@google/genai'],
+          'react-vendor': ['react', 'react-dom'],
+          'pdf-vendor': ['jspdf', 'html2pdf.js'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
   esbuild: {
     target: 'esnext',
